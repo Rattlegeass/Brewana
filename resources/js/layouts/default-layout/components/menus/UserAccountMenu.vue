@@ -88,14 +88,14 @@ const currentLangugeLocale = computed(() => {
             <div class="menu-content d-flex align-items-center px-3">
                 <!--begin::Avatar-->
                 <div class="symbol symbol-50px me-5">
-                    <img
+                    <!-- <img
                         alt="Logo"
                         :src="
                             getAssetPath(
                                 store.user.photo ?? 'media/avatars/300-3.jpg'
                             )
                         "
-                    />
+                    /> -->
                 </div>
                 <!--end::Avatar-->
 
@@ -106,7 +106,7 @@ const currentLangugeLocale = computed(() => {
                         <span
                             class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2"
                         >
-                            {{ store.user.role.name }}
+                            {{ store.user.role?.name }}
                         </span>
                     </div>
                     <a
@@ -126,11 +126,11 @@ const currentLangugeLocale = computed(() => {
         <!--end::Menu separator-->
 
         <!--begin::Menu item-->
-        <div class="menu-item px-5 my-1">
+        <!-- <div class="menu-item px-5 my-1">
             <router-link to="/dashboard/profile" class="menu-link px-5">
                 Account Settings
             </router-link>
-        </div>
+        </div> -->
         <!--end::Menu item-->
 
         <!--begin::Menu item-->

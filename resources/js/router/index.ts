@@ -18,7 +18,7 @@ declare module "vue-router" {
 const routes: Array<RouteRecordRaw> = [
     {
         path: "/",
-        redirect: "/dashboard",
+        // redirect: "/dashboard",
         component: () => import("@/layouts/default-layout/DefaultLayout.vue"),
         meta: {
             middleware: "auth",
@@ -31,17 +31,18 @@ const routes: Array<RouteRecordRaw> = [
                 meta: {
                     pageTitle: "Dashboard",
                     breadcrumbs: ["Dashboard"],
+                    permission: "dashboard",
                 },
             },
-            {
-                path: "/dashboard/profile",
-                name: "dashboard.profile",
-                component: () => import("@/pages/dashboard/profile/Index.vue"),
-                meta: {
-                    pageTitle: "Profile",
-                    breadcrumbs: ["Profile"],
-                },
-            },
+            // {
+            //     path: "/dashboard/profile",
+            //     name: "dashboard.profile",
+            //     component: () => import("@/pages/dashboard/profile/Index.vue"),
+            //     meta: {
+            //         pageTitle: "Profile",
+            //         breadcrumbs: ["Profile"],
+            //     },
+            // },
             {
                 path: "/dashboard/setting",
                 name: "dashboard.setting",
@@ -49,6 +50,7 @@ const routes: Array<RouteRecordRaw> = [
                 meta: {
                     pageTitle: "Website Setting",
                     breadcrumbs: ["Website", "Setting"],
+                    permission: "setting",
                 },
             },
 
@@ -61,6 +63,7 @@ const routes: Array<RouteRecordRaw> = [
                 meta: {
                     pageTitle: "User Roles",
                     breadcrumbs: ["Master", "Users", "Roles"],
+                    permission: "master-role",
                 },
             },
             {
@@ -71,6 +74,7 @@ const routes: Array<RouteRecordRaw> = [
                 meta: {
                     pageTitle: "Users",
                     breadcrumbs: ["Master", "Users"],
+                    permission: "master-user",
                 },
             },
         ],
@@ -85,6 +89,24 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import("@/pages/auth/sign-in/Index.vue"),
                 meta: {
                     pageTitle: "Sign In",
+                    middleware: "guest",
+                },
+            },
+            {
+                path: "/sign-up",
+                name: "sign-up",
+                component: () => import("@/pages/auth/sign-up/Index.vue"),
+                meta: {
+                    pageTitle: "Sign Up",
+                    middleware: "guest",
+                },
+            },
+            {
+                path: "/verify-otp/:email",
+                name: "verify-otp",
+                component: () => import("@/pages/auth/sign-up/steps/VerifyOtp.vue"),
+                meta: {
+                    pageTitle: "Verify Otp",
                     middleware: "guest",
                 },
             },
@@ -116,6 +138,11 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/:pathMatch(.*)*",
         redirect: "/404",
+    },
+    {
+        path: "/landing",
+        name: "landing",
+        component: () => import("@/layouts/LandingLayout.vue"),
     },
 ];
 
@@ -151,8 +178,7 @@ router.beforeEach(async (to, from, next) => {
 
     // current page view title
     if (to.meta.pageTitle) {
-        document.title = `${to.meta.pageTitle} - ${import.meta.env.VITE_APP_NAME
-            }`;
+        document.title = `${to.meta.pageTitle} - ${import.meta.env.VITE_APP_NAME}`;
     } else {
         document.title = import.meta.env.VITE_APP_NAME as string;
     }
@@ -166,11 +192,14 @@ router.beforeEach(async (to, from, next) => {
     // before page access check if page requires authentication
     if (to.meta.middleware == "auth") {
         if (authStore.isAuthenticated) {
-            if (
-                to.meta.permission &&
-                !authStore.user.permission.includes(to.meta.permission)
-            ) {
+            if (to.meta.permission && !authStore.user.permission.includes(to.meta.permission)) {
                 next({ name: "404" });
+            } else if (to.path == '/') {
+                if (authStore.user.role?.name == "admin") {
+                    next({ name: "dashboard" });
+                } else {
+                    next({ name: "landing" });
+                }
             } else if (to.meta.checkDetail == false) {
                 next();
             }
@@ -180,7 +209,11 @@ router.beforeEach(async (to, from, next) => {
             next({ name: "sign-in" });
         }
     } else if (to.meta.middleware == "guest" && authStore.isAuthenticated) {
-        next({ name: "dashboard" });
+        if (authStore.user.role?.name == "admin") {
+            next({ name: "dashboard" });
+        } else {
+            next({ name: "landing" });
+        }
     } else {
         next();
     }

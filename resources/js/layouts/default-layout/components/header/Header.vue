@@ -7,6 +7,9 @@ import {
     layout,
     themeMode,
 } from "@/layouts/default-layout/config/helper";
+import { useSetting } from "@/services";
+
+const { data: setting = {} } = useSetting()
 </script>
 
 <template>
@@ -68,8 +71,8 @@ import {
                 >
                     <router-link to="/" class="d-lg-none">
                         <img
-                            alt="Logo"
-                            :src="getAssetPath('media/logos/default-small.svg')"
+                            :alt="setting?.app"
+                            :src="setting?.logo"
                             class="h-30px"
                         />
                     </router-link>

@@ -29,15 +29,15 @@
 <body class="page-loading">
   <!--begin::Theme mode setup on page load-->
   <script>
-    let themeMode = "system";
+    let themeMode = "light";
 
     if (localStorage.getItem("kt_theme_mode_value")) {
       themeMode = localStorage.getItem("kt_theme_mode_value");
     }
 
-    if (themeMode === "system") {
-      themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    }
+    // if (themeMode === "system") {
+    //   themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    // }
 
     document.documentElement.setAttribute("data-bs-theme", themeMode);
   </script>

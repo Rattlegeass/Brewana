@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 // Authentication Route
 Route::middleware(['auth', 'json'])->prefix('auth')->group(function () {
     Route::post('login', [AuthController::class, 'login'])->withoutMiddleware('auth');
+    Route::post('register', [AuthController::class, 'register'])->withoutMiddleware('auth');
+    Route::post('verify-otp', [AuthController::class, 'verifyOtp'])->withoutMiddleware('auth');
     Route::delete('logout', [AuthController::class, 'logout']);
     Route::get('me', [AuthController::class, 'me']);
 });
