@@ -1,22 +1,22 @@
 <script setup lang="ts">
 // import { getAssetPath } from "@/core/helpers/assets";
-// import { computed, ref } from "vue";
+import { computed, ref } from "vue";
 import KTUserMenu from "@/layouts/default-layout/components/menus/UserAccountMenu.vue";
-// import KTThemeModeSwitcher from "@/layouts/default-layout/components/theme-mode/ThemeModeSwitcher.vue";
-// import { ThemeModeComponent } from "@/assets/ts/layout";
-// import { useThemeStore } from "@/stores/theme";
+import KTThemeModeSwitcher from "@/layouts/default-layout/components/theme-mode/ThemeModeSwitcher.vue";
+import { ThemeModeComponent } from "@/assets/ts/layout";
+import { useThemeStore } from "@/stores/theme";
 // import { useAuthStore } from "@/stores/auth";
 // import { useTahunStore } from "@/stores/tahun";
 
-// const store = useThemeStore();
+const store = useThemeStore();
 // const { user } = useAuthStore();
 
-// const themeMode = computed(() => {
-//     if (store.mode === "system") {
-//         return ThemeModeComponent.getSystemMode();
-//     }
-//     return store.mode;
-// });
+const themeMode = computed(() => {
+    if (store.mode === "system") {
+        return ThemeModeComponent.getSystemMode();
+    }
+    return store.mode;
+});
 
 // const tahun = useTahunStore()
 // const tahuns = ref<Array<Number>>([])
@@ -35,18 +35,18 @@ import KTUserMenu from "@/layouts/default-layout/components/menus/UserAccountMen
         <!--end::Theme mode-->
 
         <!--begin::Theme mode-->
-        <!-- <div class="app-navbar-item ms-1 ms-md-3"> -->
+        <div class="app-navbar-item ms-1 ms-md-3">
             <!--begin::Menu toggle-->
-            <!-- <a href="#"
+            <a href="#"
                 class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-30px h-30px w-md-40px h-md-40px"
                 data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-attach="parent"
                 data-kt-menu-placement="bottom-end">
                 <KTIcon v-if="themeMode === 'light'" icon-name="night-day" icon-class="fs-2" />
                 <KTIcon v-else icon-name="moon" icon-class="fs-2" />
-            </a> -->
+            </a>
             <!--begin::Menu toggle-->
-            <!-- <KTThemeModeSwitcher />
-        </div> -->
+            <KTThemeModeSwitcher />
+        </div>
         <!--end::Theme mode-->
 
         <!--begin::User menu-->

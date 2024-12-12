@@ -17,16 +17,16 @@ class SettingSeeder extends Seeder
         DB::table('settings')->truncate();
 
         Setting::create([
-            'app' => 'e-SAKIP DLH',
-            'description' =>  'Aplikasi e-SAKIP Dinas Lingkungan Hidup',
-            'logo' =>  '/media/logo.png',
-            'bg_auth' =>  '/media/misc/bg-auth.jpg',
-            'banner' =>  '/media/misc/banner.jpg',
-            'pemerintah' =>  'Pemerintah Provinsi Jawa Timur',
-            'dinas' =>  'Dinas Lingkungan Hidup',
-            'alamat' =>  '',
-            'telepon' =>  '',
-            'email' =>  '',
+            'app' => 'BREWANA',
+            'description' =>  'Kopi Kita',
+            'logo' =>  '/media/coffee-logo.png',
+            'bg_auth' =>  '/media/misc/coffee-bg.jpg',
+            'banner' =>  '/media/misc/coffee-banner.jpg',
+            'pemerintah' =>  'Jawa Timur',
+            'dinas' =>  'Surabaya',
+            'alamat' =>  'Kendung Jaya',
+            'telepon' =>  '08123456789',
+            'email' =>  'admin@gmail.com',
         ]);
     }
 }

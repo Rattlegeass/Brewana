@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
   {{-- <link rel="stylesheet" href="/splash-screen.css"> --}}
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TPAIS APP</title>
+  <title>BREWANA</title>
 
   <style>
     /* Style to hide the spinner arrows */
@@ -35,9 +35,9 @@
       themeMode = localStorage.getItem("kt_theme_mode_value");
     }
 
-    // if (themeMode === "system") {
-    //   themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    // }
+    if (themeMode === "system") {
+      themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
 
     document.documentElement.setAttribute("data-bs-theme", themeMode);
   </script>

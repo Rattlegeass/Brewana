@@ -48,10 +48,10 @@
 
         <!--begin::Link-->
         <div class="text-gray-400 fw-semobold fs-4 text-center">
-            {{ $t('Dont have an account yet?') }}
+            {{ $t('Masih belum memiliki akun?') }}
 
             <router-link to="/sign-up" class="link-primary fw-bold">
-                {{ $t('Register Now!') }}
+                {{ $t('Register Sekarang!') }}
             </router-link>
         </div>
         <!--end::Link-->

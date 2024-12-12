@@ -88,7 +88,7 @@ export default defineComponent({
             </router-link>
 
             <h1>
-                Register Account <span class="text-primary">{{ setting?.app }}</span>
+                Register Akun <span class="text-primary">{{ setting?.app }}</span>
             </h1>
         </div>
 
@@ -102,10 +102,10 @@ export default defineComponent({
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <label class="form-label fw-bold fs-6">
-                                Name
+                                Nama
                             </label>
                             <Field tabindex="1" class="form-control form-control-lg form-control-solid" type="text"
-                                name="name" autocomplete="off" v-model="user.name" placeholder="Enter your Name" />
+                                name="name" autocomplete="off" v-model="user.name" placeholder="Masukkan Nama" />
                             <div class="fv-plugins-message-container">
                                 <div class="fv-help-block">
                                     <ErrorMessage name="name" />
@@ -121,7 +121,7 @@ export default defineComponent({
                                 Email
                             </label>
                             <Field tabindex="2" class="form-control form-control-lg form-control-solid" type="text"
-                                name="email" autocomplete="off" v-model="user.email" placeholder="Enter your Email" />
+                                name="email" autocomplete="off" v-model="user.email" placeholder="Masukkan Email" />
                             <div class="fv-plugins-message-container">
                                 <div class="fv-help-block">
                                     <ErrorMessage name="email" />
@@ -134,11 +134,11 @@ export default defineComponent({
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <label class="form-label fw-bold fs-6">
-                                Phone Number
+                                Nomor Telepon
                             </label>
                             <Field tabindex="3" class="form-control form-control-lg form-control-solid" type="text"
                                 name="phone" autocomplete="off" v-model="user.phone"
-                                placeholder="Enter your Phone Number" />
+                                placeholder="Masukkan Nomor Telepon" />
                             <div class="fv-plugins-message-container">
                                 <div class="fv-help-block">
                                     <ErrorMessage name="phone" />
@@ -155,7 +155,7 @@ export default defineComponent({
                             </label>
                             <Field tabindex="4" class="form-control form-control-lg form-control-solid" type="password"
                                 name="password" autocomplete="off" v-model="user.password"
-                                placeholder="Enter your Password" />
+                                placeholder="Masukkan Password" />
                             <div class="fv-plugins-message-container">
                                 <div class="fv-help-block">
                                     <ErrorMessage name="password" />
@@ -168,11 +168,11 @@ export default defineComponent({
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <label class="form-label fw-bold fs-6">
-                                Confirm Password
+                                Konfirmasi Password
                             </label>
                             <Field tabindex="5" class="form-control form-control-lg form-control-solid" type="password"
                                 name="password_confirmation" autocomplete="off" v-model="user.password_confirmation"
-                                placeholder="Confirm your Password" />
+                                placeholder="Konfirmasi Password" />
                             <div class="fv-plugins-message-container">
                                 <div class="fv-help-block">
                                     <ErrorMessage name="password_confirmation" />
@@ -185,7 +185,7 @@ export default defineComponent({
                         <div class="form-check">
                         <input class="form-check-input" type="checkbox" @click="togglePassword" id="flexCheckDefault">
                         <label class="form-check-label" for="flexCheckDefault">
-                            Show Password
+                            Tunjukkan Password
                         </label>
                         </div>
                     </div>
@@ -202,10 +202,10 @@ export default defineComponent({
         <div class="border-bottom border-gray-300 w-100 mt-5 mb-10"></div>
 
         <div class="text-gray-400 fw-semobold fs-4 text-center mt-10">
-            {{ $t('Already have an account?') }}
+            {{ $t('Sudah memiliki akun?') }}
 
             <router-link to="/sign-in" class="link-primary fw-bold">
-                {{ $t('Sign In Now!') }}
+                {{ $t('Masuk Sekarang!') }}
             </router-link>
         </div>
     </div>

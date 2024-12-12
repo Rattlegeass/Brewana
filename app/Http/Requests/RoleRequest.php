@@ -31,8 +31,8 @@ class RoleRequest extends FormRequest
         return [
             'name' => $nameRules,
             'full_name' => ['required', 'string', 'max:255'],
-            'permissions' => ['required', 'array', 'min:1'],
-            'permissions.*' => ['required', 'string']
+            'permissions' => ['array'],
+            'permissions.*' => ['string']
         ];
     }
 }

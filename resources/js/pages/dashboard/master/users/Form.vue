@@ -18,8 +18,8 @@ const props = defineProps({
 const emit = defineEmits(["close", "refresh"]);
 
 const user = ref<User>({} as User);
-const fileTypes = ref(["image/jpeg", "image/png", "image/jpg"]);
-const photo = ref<any>([]);
+// const fileTypes = ref(["image/jpeg", "image/png", "image/jpg"]);
+// const photo = ref<any>([]);
 const formRef = ref();
 
 const formSchema = Yup.object().shape({
@@ -40,9 +40,9 @@ function getEdit() {
     ApiService.get("master/users", props.selected)
         .then(({ data }) => {
             user.value = data.user;
-            photo.value = data.user.photo
-                ? ["/storage/" + data.user.photo]
-                : [];
+            // photo.value = data.user.photo
+            //     ? ["/storage/" + data.user.photo]
+            //     : [];
         })
         .catch((err: any) => {
             toast.error(err.response.data.message);
@@ -66,9 +66,9 @@ function submit() {
             user.value.passwordConfirmation
         );
     }
-    if (photo.value.length) {
-        formData.append("photo", photo.value[0].file);
-    }
+    // if (photo.value.length) {
+    //     formData.append("photo", photo.value[0].file);
+    // }
     if (props.selected) {
         formData.append("_method", "PUT");
     }
@@ -282,28 +282,28 @@ watch(
                     </div>
                     <!--end::Input group-->
                 </div>
-                <div class="col-md-6">
+                <!-- <div class="col-md-6"> -->
                     <!--begin::Input group-->
-                    <div class="fv-row mb-7">
+                    <!-- <div class="fv-row mb-7">
                         <label class="form-label fw-bold fs-6">
                             User Photo
-                        </label>
+                        </label> -->
                         <!--begin::Input-->
-                        <file-upload
+                        <!-- <file-upload
                             :files="photo"
                             :accepted-file-types="fileTypes"
                             required
                             v-on:updatefiles="(file) => (photo = file)"
-                        ></file-upload>
+                        ></file-upload> -->
                         <!--end::Input-->
-                        <div class="fv-plugins-message-container">
+                        <!-- <div class="fv-plugins-message-container">
                             <div class="fv-help-block">
                                 <ErrorMessage name="photo" />
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!--end::Input group-->
-                </div>
+                <!-- </div> -->
             </div>
         </div>
         <div class="card-footer d-flex">

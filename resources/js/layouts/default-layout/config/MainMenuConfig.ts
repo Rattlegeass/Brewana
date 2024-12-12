@@ -26,6 +26,40 @@ const MainMenuConfig: Array<MenuItem> = [
                 name: "master",
                 sub: [
                     {
+                        sectionTitle: "Barang",
+                        route: "/barang",
+                        name: "master-barang",
+                        sub: [
+                            {
+                                heading: "Kategori",
+                                name: "master-kategori",
+                                route: "/dashboard/master/barang/kategori",
+                            },
+                            {
+                                heading: "Barang",
+                                name: "master-barang",
+                                route: "/dashboard/master/barang",
+                            },
+                        ],
+                    },
+                    {
+                        sectionTitle: "Promo",
+                        route: "/promo",
+                        name: "master-promo",
+                        sub: [
+                            {
+                                heading: "Diskon",
+                                name: "master-diskon",
+                                route: "/dashboard/master/promo/diskon",
+                            },
+                            {
+                                heading: "Promo",
+                                name: "master-promo",
+                                route: "/dashboard/master/promo",
+                            },
+                        ],
+                    },
+                    {
                         sectionTitle: "User",
                         route: "/users",
                         name: "master-user",

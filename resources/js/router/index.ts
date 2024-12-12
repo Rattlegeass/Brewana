@@ -56,6 +56,50 @@ const routes: Array<RouteRecordRaw> = [
 
             // MASTER
             {
+                path: "/dashboard/master/barang",
+                name: "dashboard.master.barang",
+                component: () => 
+                    import("@/pages/dashboard/master/barangs/Index.vue"),
+                meta: {
+                    pageTitle: "Barang",
+                    breadcrumbs: ["Master", "Barang"],
+                    permission: "master-barang",
+                }
+            },
+            {
+                path: "/dashboard/master/barang/kategori",
+                name: "dashboard.master.barang.kategori",
+                component: () => 
+                    import("@/pages/dashboard/master/barangs/kategori/Index.vue"),
+                meta: {
+                    pageTitle: "Kategori Barang",
+                    breadcrumbs: ["Master", "Barang", "Kategori"],
+                    permission: "master-kategori",
+                }
+            },
+            {
+                path: "/dashboard/master/promo",
+                name: "dashboard.master.promo",
+                component: () => 
+                    import("@/pages/dashboard/master/promos/Index.vue"),
+                meta: {
+                    pageTitle: "Promo",
+                    breadcrumbs: ["Master", "Promo"],
+                    permission: "master-promo",
+                }
+            },
+            {
+                path: "/dashboard/master/promo/diskon",
+                name: "dashboard.master.promo.diskon",
+                component: () => 
+                    import("@/pages/dashboard/master/promos/diskon/Index.vue"),
+                meta: {
+                    pageTitle: "Diskon",
+                    breadcrumbs: ["Master", "Barang", "Diskon"],
+                    permission: "master-diskon",
+                }
+            },
+            {
                 path: "/dashboard/master/users/roles",
                 name: "dashboard.master.users.roles",
                 component: () =>
@@ -195,7 +239,7 @@ router.beforeEach(async (to, from, next) => {
             if (to.meta.permission && !authStore.user.permission.includes(to.meta.permission)) {
                 next({ name: "404" });
             } else if (to.path == '/') {
-                if (authStore.user.role?.name == "admin") {
+                if (authStore.user?.role?.name == "admin") {
                     next({ name: "dashboard" });
                 } else {
                     next({ name: "landing" });
@@ -209,7 +253,7 @@ router.beforeEach(async (to, from, next) => {
             next({ name: "sign-in" });
         }
     } else if (to.meta.middleware == "guest" && authStore.isAuthenticated) {
-        if (authStore.user.role?.name == "admin") {
+        if (authStore.user?.role?.name == "admin") {
             next({ name: "dashboard" });
         } else {
             next({ name: "landing" });
