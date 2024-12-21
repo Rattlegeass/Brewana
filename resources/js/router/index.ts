@@ -18,7 +18,7 @@ declare module "vue-router" {
 const routes: Array<RouteRecordRaw> = [
     {
         path: "/",
-        // redirect: "/dashboard",
+        redirect: "/landing/home",
         component: () => import("@/layouts/default-layout/DefaultLayout.vue"),
         meta: {
             middleware: "auth",
@@ -183,10 +183,40 @@ const routes: Array<RouteRecordRaw> = [
         path: "/:pathMatch(.*)*",
         redirect: "/404",
     },
+
+    // Landing Page
     {
         path: "/landing",
         name: "landing",
-        component: () => import("@/layouts/LandingLayout.vue"),
+        redirect: "/landing/home",
+        component: () => import("@/layouts/landing-layout/LandingLayout.vue"),
+        children: [
+            {
+                path: "/landing/home",
+                name: "landing.home",
+                component: () => import("@/pages/landing/home/Index.vue"),
+            },
+            {
+                path: "/landing/toko",
+                name: "landing.toko",
+                component: () => import("@/pages/landing/toko/Index.vue"),
+            },
+            {
+                path: "/landing/tentang-kami",
+                name: "landing.tentang-kami",
+                component: () => import("@/pages/landing/tentang-kami/Index.vue"),
+            },
+            {
+                path: "/landing/keranjang",
+                name: "landing.keranjang",
+                component: () => import("@/pages/landing/keranjang/Index.vue"),
+            },
+            {
+                path: "/landing/profil",
+                name: "landing.profil",
+                component: () => import("@/pages/landing/profil/Index.vue"),
+            },
+        ]
     },
 ];
 
