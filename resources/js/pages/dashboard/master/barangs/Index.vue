@@ -22,17 +22,39 @@ import { createColumnHelper } from '@tanstack/vue-table';
 import { currency } from '@/libs/utils'
 import Form from "./Form.vue";
 
-interface Kategori {
-    id: number,
-    uuid: string,
-    nama: string,
-    deskripsi: string,
-    stok: number,
-    kategori_id: number,
-    harga: number
+interface Barang {
+    id: BigInteger;
+    uuid: string;
+    nama: string;
+    deskripsi: string;
+    stok: BigInteger;
+    harga: BigInteger;
+    kategori_id: BigInteger;
+    kategori: {
+        id: BigInteger;
+        uuid: string;
+        nama: string;
+    };
+    promo_id: BigInteger;
+    promo: {
+        id: BigInteger;
+        uuid: string;
+        nama: string;
+        deskripsi: string;
+        image: string;
+        periode_awal: string;
+        periode_akhir: string;
+        potongan_harga: BigInteger;
+    }
+    barang_images: {
+        id: BigInteger;
+        uuid: string;
+        barang_id: BigInteger;
+        image: string;
+    };
 }
 
-const column = createColumnHelper<Kategori>();
+const column = createColumnHelper<Barang>();
 
 export default defineComponent({
     components: {
@@ -50,6 +72,13 @@ export default defineComponent({
         const columns = [
             column.accessor("no", {
                 header: "No"
+            }),
+            column.accessor(row => row.barang_images?.[0]?.image, {
+                header: "Image",
+                cell: cell => cell.getValue() ? h('img', {
+                    src: `/storage/${cell.getValue()}`,
+                    width: 150
+                }) : null
             }),
             column.accessor("nama", {
                 header: "Nama"

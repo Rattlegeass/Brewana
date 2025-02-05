@@ -16,9 +16,10 @@ return new class extends Migration
             $table->uuid()->unique();
             $table->string('nama');
             $table->text('deskripsi')->nullable();
-            $table->string('stok');
-            $table->foreignId('kategori_id')->constrained()->onDelete('cascade');
-            $table->string('harga');
+            $table->integer('stok');
+            $table->integer('harga');
+            $table->foreignId('kategori_id')->constrained('kategoris')->onDelete('cascade');
+            $table->foreignId('promo_id')->nullable()->constrained('promos')->onDelete('cascade');
             $table->timestamps();
         });
     }

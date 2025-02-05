@@ -11,14 +11,24 @@ const MainMenuConfig: Array<MenuItem> = [
             },
         ],
     },
-
-    // WEBSITE
+    
     {
         heading: "Website",
         route: "/dashboard/website",
         name: "website",
         pages: [
-            // MASTER
+            {
+                heading: "Pembayaran",
+                name: "pembayaran",
+                route: "/dashboard/pembayaran",
+                keenthemesIcon: "credit-cart",
+            },
+            {
+                heading: "Pengiriman",
+                name: "pengiriman",
+                route: "/dashboard/pengiriman",
+                keenthemesIcon: "delivery",
+            },
             {
                 sectionTitle: "Master",
                 route: "/master",
@@ -31,6 +41,11 @@ const MainMenuConfig: Array<MenuItem> = [
                         name: "master-barang",
                         sub: [
                             {
+                                heading: "Promo",
+                                name: "master-promo",
+                                route: "/dashboard/master/barang/promo",
+                            },
+                            {
                                 heading: "Kategori",
                                 name: "master-kategori",
                                 route: "/dashboard/master/barang/kategori",
@@ -39,23 +54,6 @@ const MainMenuConfig: Array<MenuItem> = [
                                 heading: "Barang",
                                 name: "master-barang",
                                 route: "/dashboard/master/barang",
-                            },
-                        ],
-                    },
-                    {
-                        sectionTitle: "Promo",
-                        route: "/promo",
-                        name: "master-promo",
-                        sub: [
-                            {
-                                heading: "Diskon",
-                                name: "master-diskon",
-                                route: "/dashboard/master/promo/diskon",
-                            },
-                            {
-                                heading: "Promo",
-                                name: "master-promo",
-                                route: "/dashboard/master/promo",
                             },
                         ],
                     },

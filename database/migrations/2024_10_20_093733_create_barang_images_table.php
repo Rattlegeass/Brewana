@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->uuid()->unique();
             $table->string('image');
-            $table->foreignId('barang_id')->constrained()->onDelete('cascade');
+            $table->foreignId('barang_id')->constrained('barangs')->onDelete('cascade');
             $table->timestamps();
         });
     }

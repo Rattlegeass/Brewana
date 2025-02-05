@@ -37,21 +37,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="fv-row mb-7">
-                        <label class="form-label fw-bold text-dark fs-6 required">Potongan Harga</label>
-                        <div class="input-group">
-                            <Field class="form-control form-control-lg form-control-solid " type="text" name="potongan_harga" autocomplete="off" 
-                            v-model="formData.potongan_harga"/>
-                            <span class="input-group-text border-0">%</span>
-                        </div>
-                        <div class="fv-plugins-message-container">
-                            <div class="fv-help-block">
-                                <ErrorMessage name="potongan_harga" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
         </div>
         <div class="card-footer d-flex">

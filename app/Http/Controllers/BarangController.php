@@ -23,7 +23,7 @@ class BarangController extends Controller
         $page = $request->page ? $request->page - 1 : 0;
 
         DB::statement('set @no=0+' . $page * $per);
-        $data = Barang::with('kategori', 'barang_images')->where(function ($q) use ($request) {
+        $data = Barang::where(function ($q) use ($request) {
             $q->where('nama', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('harga', 'LIKE', '%' . $request->search . '%')
                 ->orWhereHas('kategori', function ($q) use ($request) {
@@ -40,8 +40,9 @@ class BarangController extends Controller
             'nama' => 'required|string',
             'deskripsi' => 'nullable|string',
             'stok' => 'required|numeric|min:0',
+            'harga' => 'required|numeric|min:1',
             'kategori_id' => 'required|exists:kategoris,id',
-            'harga' => 'required|numeric|min:1'
+            'promo_id' => 'nullable|exists:promos,id',
         ]);
 
         $barang = Barang::create($data);
@@ -50,7 +51,7 @@ class BarangController extends Controller
             $images = [];
 
             foreach ($request->file('image') as $image) {
-                $images[] = ['image' => $image->store('image', 'public')];
+                $images[] = ['image' => $image->store('barang', 'public')];
             }
 
             $barang->barang_images()->createMany($images);
@@ -77,8 +78,9 @@ class BarangController extends Controller
             'nama' => 'required|string',
             'deskripsi' => 'nullable|string',
             'stok' => 'required|numeric|min:0',
+            'harga' => 'required|numeric|min:1',
             'kategori_id' => 'required|exists:kategoris,id',
-            'harga' => 'required|numeric|min:1'
+            'promo_id' => 'nullable|exists:promos,id',
         ]);
 
         $barang = Barang::findByUuid($uuid);
@@ -90,9 +92,9 @@ class BarangController extends Controller
                 Storage::disk('public')->delete($barang_image->image);
             }
             $barang->barang_images()->delete();
-            
+
             foreach ($request->file('image') as $image) {
-                $images[] = ['image' => $image->store('image', 'public')];
+                $images[] = ['image' => $image->store('barang', 'public')];
             }
             $barang->barang_images()->createMany($images);
         }

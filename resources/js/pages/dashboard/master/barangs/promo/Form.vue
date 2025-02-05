@@ -74,6 +74,21 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-4">
+                    <div class="fv-row mb-7">
+                        <label class="form-label fw-bold text-dark fs-6 required">Potongan Harga</label>
+                        <div class="input-group">
+                            <Field class="form-control form-control-lg form-control-solid " type="text" name="potongan_harga" autocomplete="off" 
+                            v-model="formData.potongan_harga"/>
+                            <span class="input-group-text border-0">%</span>
+                        </div>
+                        <div class="fv-plugins-message-container">
+                            <div class="fv-help-block">
+                                <ErrorMessage name="potongan_harga" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="card-footer d-flex">
@@ -97,6 +112,7 @@ interface FormData {
     image: string;
     periode_awal: string;
     periode_akhir: string;
+    potongan_harga: number;
 }
 
 export default defineComponent({
@@ -135,7 +151,6 @@ export default defineComponent({
             axios.get(`/master/promo/${this.selected}/show`)
                 .then(res => {
                     this.formData = res.data.data
-                    console.log(res.data.data)
                     this.image = res.data.data.image ? ["/storage/" + res.data.data.image] : []
                 })
                 .catch(err => {

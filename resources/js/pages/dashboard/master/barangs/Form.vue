@@ -9,7 +9,7 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-md-5">
+                <div class="col-md-6">
                     <div class="fv-row mb-7">
                         <label class="form-label fw-bold text-dark fs-6 required">Nama</label>
                         <Field class="form-control form-control-lg form-control-solid" type="text" name="nama"
@@ -21,8 +21,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-5">
-                    <div class="fv-row mb-7">
+                <div class="col-md-6">
+                    <div class="fv-row mb-">
                         <label class="form-label fw-bold text-dark fs-6 required">Harga</label>
                         <div class="input-group">
                             <span class="input-group-text border-0">Rp</span>
@@ -32,18 +32,6 @@
                         <div class="fv-plugins-message-container">
                             <div class="fv-help-block">
                                 <ErrorMessage name="harga" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="fv-row mb-7">
-                        <label class="form-label fw-bold text-dark fs-6 required">Stok</label>
-                        <Field class="form-control form-control-lg form-control-solid" type="number" name="stok"
-                            autocomplete="off" v-model="formData.stok" pattern="^\d+(,\d{1,2})?$" step="any"/>
-                        <div class="fv-plugins-message-container">
-                            <div class="fv-help-block">
-                                <ErrorMessage name="stok" />
                             </div>
                         </div>
                     </div>
@@ -64,6 +52,20 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-3">
+                    <div class="fv-row mb-7">
+                        <label class="form-label fw-bold text-dark fs-6 required">Stok</label>
+                        <Field class="form-control form-control-lg form-control-solid" type="number" name="stok"
+                            autocomplete="off" v-model="formData.stok" pattern="^\d+(,\d{1,2})?$" step="any"/>
+                        <div class="fv-plugins-message-container">
+                            <div class="fv-help-block">
+                                <ErrorMessage name="stok" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-6">
                     <div class="fv-row mb-7">
                         <label class="form-label fw-bold text-dark fs-6 required">Kategori</label>
@@ -74,6 +76,20 @@
                         <div class="fv-plugins-message-container">
                             <div class="fv-help-block">
                                 <ErrorMessage name="kategori_id" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="fv-row mb-7">
+                        <label class="form-label fw-bold text-dark fs-6 required">Promo</label>
+                        <Field type="hidden" v-model="formData.promo_id" name="promo_id" readonly />
+                        <select2 placeholder="Pilih Promo" class="form-select-solid" :options="promos"
+                            name="promo_id" v-model="formData.promo_id">
+                        </select2>
+                        <div class="fv-plugins-message-container">
+                            <div class="fv-help-block">
+                                <ErrorMessage name="promo_id" />
                             </div>
                         </div>
                     </div>
@@ -110,14 +126,15 @@ import { computed, defineComponent, ref } from "vue";
 import * as Yup from "yup";
 import axios from "@/libs/axios";
 import { toast } from "vue3-toastify";
-import { useKategori } from '@/services';
+import { useKategori, usePromo } from '@/services';
 
 interface FormData {
     nama: string;
     deskripsi: string | null;
     stok: number;
-    kategori_id: number;
     harga: string;
+    kategori_id: number;
+    promo_id: number;
     barang_images: [
         {
             image: string;
@@ -149,6 +166,12 @@ export default defineComponent({
             text: item.nama
         })))
 
+        const promo = usePromo()
+        const promos = computed(() => promo.data.value?.map(item => ({
+            id: item.id,
+            text: item.nama
+        })))
+
         const barang_images = ref<Array<File | String>>([])
         const fileTypes = ref(['image/jpeg', 'image/png'])
 
@@ -160,6 +183,7 @@ export default defineComponent({
             formData,
             formSchema,
             kategoris,
+            promos,
             barang_images,
             fileTypes,
             onUpdateFiles,

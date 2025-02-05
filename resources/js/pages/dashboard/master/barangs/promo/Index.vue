@@ -28,7 +28,8 @@ interface Promo {
     deskripsi: string,
     image: string,
     periode_awal: string,
-    periode_akhir: string
+    periode_akhir: string,
+    potongan_harga: string,
 }
 
 const column = createColumnHelper<Promo>();
@@ -65,6 +66,10 @@ export default defineComponent({
             }),
             column.accessor("periode_akhir", {
                 header: "Periode Akhir",
+            }),
+            column.accessor("potongan_harga", {
+                header: "Potongan Harga",
+                cell: cell => `${cell.getValue()}%`
             }),
             column.accessor("uuid", {
                 header: "Aksi",

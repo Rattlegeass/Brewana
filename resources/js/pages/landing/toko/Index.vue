@@ -1,7 +1,132 @@
 <template>
-    <div class="container-fluid p-0 border-bottom border-dark-subtle bg-success" id="tentang-kami">
-        <div class="d-flex flex-row justify-content-center align-items-center" style="width: 100%; height: 400px">
-            <h1 class="display-4 fw-bold mb-3">TOKO</h1>
+    <div class="container-fluid p-10 g-5" id="toko">
+        <div class="search-container mb-5 shadow-lg">
+            <div class="input-group search-bar">
+                <span class="input-group-text bg-white border-end-0">
+                    <i class="la la-search text-muted fs-4"></i>
+                </span>
+                <input 
+                    type="text" 
+                    class="form-control border-start-0 bg-white" 
+                    placeholder="Cari barang..." 
+                    v-model="search"
+                    @input="data()"
+                />
+            </div>
+        </div>
+        <div v-if="items.data?.length > 0">
+            <div class="card mb-5 shadow-lg" v-for="(item, index) in items.data" :key="index">
+                <div class="card-header"></div>
+                <div class="card-body" @click="router.push(`/landing/toko/${item.uuid}/${item.id}/detail`)" style="cursor: pointer;">
+                    <div class="row g-3">
+                        <div class="col-12 col-md-3 col-sm-6 d-flex flex-column justify-content-center align-items-center">
+                            <div class="overflow-hidden rounded shadow-sm" style="height: 150px; width: 175px;">
+                                <img :src="`/storage/${item.barang_images[0]?.image}`" alt="Gambar Vertikal" class="w-100 h-100" style="object-fit: cover;">
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-9 col-sm-6 d-flex flex-column justify-content-center">
+                            <h2 class="fw-bold">{{ item.nama }}</h2>
+                            <p class="card-text text-muted mb-4">Kategori: <span class="text-dark">{{ item.kategori.nama }}</span></p>
+                            <p class="text-muted mb-4">{{ item.deskripsi }}</p>
+                            <h4 class="text-primary fw-bold">
+                                <span v-if="item.harga_diskon" class="text-decoration-line-through opacity-25 me-2">{{ currency(item.harga) }}</span>
+                                <span v-if="item.harga_diskon">{{ currency(item.harga_diskon) }}</span>
+                                <span v-if="item.harga_diskon == null">{{ currency(item.harga) }}</span>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer"></div>
+            </div>
+            <nav aria-label="Page navigation" class="mt-4">
+                <ul class="pagination">
+                    <li v-for="(link, index) in items.links" :key="index" :class="['page-item', { disabled: !link.url, active: link.active }]">
+                        <a class="page-link" v-if="link.url" href="#" @click.prevent="data(link.url)">
+                            <span v-html="link.label"></span>
+                        </a>
+                        <span v-else class="page-link" v-html="link.label"></span>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="text-center pt-15" v-else>
+            <div v-if="!items.uuid" class="text-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
         </div>
     </div>
 </template>
+<script lang="ts">
+import { defineComponent, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from "@/libs/axios";
+import { toast } from "vue3-toastify";
+import { currency, block, unblock } from "@/libs/utils";
+
+interface Barang {
+    id: BigInteger;
+    uuid: string;
+    nama: string;
+    deskripsi: string;
+    stok: BigInteger;
+    harga: BigInteger;
+    kategori_id: BigInteger;
+    kategori: {
+        id: BigInteger;
+        uuid: string;
+        nama: string;
+    };
+    promo_id: BigInteger;
+    promo: {
+        id: BigInteger;
+        uuid: string;
+        nama: string;
+        deskripsi: string;
+        image: string;
+        periode_awal: string;
+        periode_akhir: string;
+        potongan_harga: BigInteger;
+    }
+    barang_images: {
+        id: BigInteger;
+        uuid: string;
+        barang_id: BigInteger;
+        image: string;
+    };
+}
+
+export default defineComponent({
+    setup() {
+        const router = useRouter();
+        const items = ref<Barang>({} as Barang);
+        const search = ref('');
+
+        return {
+            router,
+            items,
+            search,
+            currency,
+        }
+    },
+    methods: {
+        data(url = '/landing/toko/get') {
+            block(this.$el)
+            axios.post(url, {
+                search: this.search
+            }).then(response => {
+                this.items = response.data.items
+            }).catch(error => {
+                toast.error(error.response.data.message)
+            }).finally(() => {
+                unblock(this.$el)
+            });
+        },
+    },
+    mounted() {
+        this.data();
+    }
+})
+</script>

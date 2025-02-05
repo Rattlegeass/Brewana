@@ -51,9 +51,9 @@ class UserController extends Controller
     {
         $validatedData = $request->validated();
 
-        // if ($request->hasFile('photo')) {
-        //     $validatedData['photo'] = $request->file('photo')->store('photo', 'public');
-        // }
+        if ($request->hasFile('photo')) {
+            $validatedData['photo'] = $request->file('photo')->store('profil', 'public');
+        }
 
         $user = User::create($validatedData);
 
@@ -84,17 +84,17 @@ class UserController extends Controller
     {
         $validatedData = $request->validated();
 
-        // if ($request->hasFile('photo')) {
-        //     if ($user->photo) {
-        //         Storage::disk('public')->delete($user->photo);
-        //     }
-        //     $validatedData['photo'] = $request->file('photo')->store('photo', 'public');
-        // } else {
-        //     if ($user->photo) {
-        //         Storage::disk('public')->delete($user->photo);
-        //         $validatedData['photo'] = null;
-        //     }
-        // }
+        if ($request->hasFile('photo')) {
+            if ($user->photo) {
+                Storage::disk('public')->delete($user->photo);
+            }
+            $validatedData['photo'] = $request->file('photo')->store('profil', 'public');
+        } else {
+            if ($user->photo) {
+                Storage::disk('public')->delete($user->photo);
+                $validatedData['photo'] = null;
+            }
+        }
 
         $user->update($validatedData);
 
@@ -112,9 +112,9 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        // if ($user->photo) {
-        //     Storage::disk('public')->delete($user->photo);
-        // }
+        if ($user->photo) {
+            Storage::disk('public')->delete($user->photo);
+        }
 
         $user->delete();
 

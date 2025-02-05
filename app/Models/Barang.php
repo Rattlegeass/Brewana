@@ -13,9 +13,11 @@ class Barang extends Model
         'nama',
         'deskripsi',
         'stok',
-        'kategori_id',
         'harga',
+        'kategori_id',
+        'promo_id',
     ];
+    public $with = ['kategori', 'barang_images', 'promo'];
 
     public function kategori()
     {
@@ -27,8 +29,23 @@ class Barang extends Model
         return $this->hasMany(BarangImage::class);
     }
 
-    public function diskons()
+    public function promo()
     {
-        return $this->hasMany(Diskon::class);
+        return $this->belongsTo(Promo::class);
+    }
+
+    public function keranjang()
+    {
+        return $this->hasMany(Keranjang::class);
+    }
+
+    public function pembayaran()
+    {
+        return $this->hasMany(Pembayaran::class);
+    }
+
+    public function komentars()
+    {
+        return $this->hasMany(Komentar::class);
     }
 }

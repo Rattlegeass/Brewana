@@ -44,6 +44,26 @@ const routes: Array<RouteRecordRaw> = [
             //     },
             // },
             {
+                path: "/dashboard/pembayaran",
+                name: "dashboard.pembayaran",
+                component: () => import("@/pages/dashboard/pembayaran/Index.vue"),
+                meta: {
+                    pageTitle: "Website Pembayaran",
+                    breadcrumbs: ["Website", "Pembayaran"],
+                    permission: "pembayaran",
+                },
+            },
+            {
+                path: "/dashboard/pengiriman",
+                name: "dashboard.pengiriman",
+                component: () => import("@/pages/dashboard/pengiriman/Index.vue"),
+                meta: {
+                    pageTitle: "Website Pengiriman",
+                    breadcrumbs: ["Website", "Pengiriman"],
+                    permission: "pengiriman",
+                },
+            },
+            {
                 path: "/dashboard/setting",
                 name: "dashboard.setting",
                 component: () => import("@/pages/dashboard/setting/Index.vue"),
@@ -78,25 +98,14 @@ const routes: Array<RouteRecordRaw> = [
                 }
             },
             {
-                path: "/dashboard/master/promo",
-                name: "dashboard.master.promo",
+                path: "/dashboard/master/barang/promo",
+                name: "dashboard.master.barang.promo",
                 component: () => 
-                    import("@/pages/dashboard/master/promos/Index.vue"),
+                    import("@/pages/dashboard/master/barangs/promo/Index.vue"),
                 meta: {
-                    pageTitle: "Promo",
-                    breadcrumbs: ["Master", "Promo"],
+                    pageTitle: "Promo Barang",
+                    breadcrumbs: ["Master", "Barang", "Promo"],
                     permission: "master-promo",
-                }
-            },
-            {
-                path: "/dashboard/master/promo/diskon",
-                name: "dashboard.master.promo.diskon",
-                component: () => 
-                    import("@/pages/dashboard/master/promos/diskon/Index.vue"),
-                meta: {
-                    pageTitle: "Diskon",
-                    breadcrumbs: ["Master", "Barang", "Diskon"],
-                    permission: "master-diskon",
                 }
             },
             {
@@ -202,6 +211,16 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import("@/pages/landing/toko/Index.vue"),
             },
             {
+                path: "/landing/toko/:uuid/:id/detail",
+                name: "landing.toko.detail",
+                component: () => import("@/pages/landing/toko/Detail.vue"),
+            },
+            {
+                path: "/landing/invoice/:uuid",
+                name: "landing.invoice",
+                component: () => import("@/pages/landing/invoice/Index.vue"),
+            },
+            {
                 path: "/landing/tentang-kami",
                 name: "landing.tentang-kami",
                 component: () => import("@/pages/landing/tentang-kami/Index.vue"),
@@ -210,11 +229,17 @@ const routes: Array<RouteRecordRaw> = [
                 path: "/landing/keranjang",
                 name: "landing.keranjang",
                 component: () => import("@/pages/landing/keranjang/Index.vue"),
+                meta: {
+                    middleware: "auth",
+                },
             },
             {
                 path: "/landing/profil",
                 name: "landing.profil",
                 component: () => import("@/pages/landing/profil/Index.vue"),
+                meta: {
+                    middleware: "auth",
+                },
             },
         ]
     },

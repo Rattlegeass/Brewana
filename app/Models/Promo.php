@@ -15,10 +15,11 @@ class Promo extends Model
         'image',
         'periode_awal',
         'periode_akhir',
+        'potongan_harga',
     ];
 
-    public function diskons()
+    public function barangs()
     {
-        return $this->hasMany(Diskon::class);
+        return $this->hasMany(Barang::class);
     }
 }

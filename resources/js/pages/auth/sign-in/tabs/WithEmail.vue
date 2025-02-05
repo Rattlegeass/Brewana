@@ -84,7 +84,7 @@
 import { getAssetPath } from "@/core/helpers/assets";
 import { defineComponent, ref } from "vue";
 import { useAuthStore } from "@/stores/auth";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import * as Yup from "yup";
 import axios from "@/libs/axios";
 import { toast } from "vue3-toastify"
@@ -94,6 +94,7 @@ export default defineComponent({
     setup() {
         const store = useAuthStore();
         const router = useRouter();
+        const route = useRoute();
 
         const submitButton = ref(null);
 
@@ -107,7 +108,7 @@ export default defineComponent({
             login,
             submitButton,
             getAssetPath,
-            store, router
+            store, router, route
         };
     },
     data() {
@@ -124,13 +125,12 @@ export default defineComponent({
 
             axios.post("/auth/login", { ...this.data, type: "email" }).then(res => {
                 this.store.setAuth(res.data.user, res.data.token);
+                const redirect = this.route.query.redirect;
                 if(res.data.user.role.id === 1){
                     this.router.push("/dashboard");
                 }else if(res.data.user.role.id === 2){
-                    const redirect = localStorage.getItem('lastUrl')
                     if(redirect) {
-                        const cleanedURL = redirect.replace(/^(?:\/\/|[^/]+)*\//, ''); // Menghapus bagian "localhost:8000/" dari URL
-                        this.router.push(cleanedURL);
+                        this.router.push(redirect);
                     } else {
                         this.router.push("/landing");
                     }

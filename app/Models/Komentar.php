@@ -5,19 +5,16 @@ namespace App\Models;
 use App\Traits\Uuid;
 use Illuminate\Database\Eloquent\Model;
 
-class Diskon extends Model
+class Komentar extends Model
 {
     use Uuid;
 
-    protected $fillable = [
-        'promo_id',
-        'barang_id',
-        'potongan_harga',
-    ];
+    protected $fillable = ['user_id', 'barang_id', 'komentar'];
+    public $with = ['barang', 'user'];
 
-    public function promo()
+    public function user()
     {
-        return $this->belongsTo(Promo::class);
+        return $this->belongsTo(User::class);
     }
 
     public function barang()

@@ -38,6 +38,7 @@ class PromoController extends Controller
             'image' => 'required|mimes:jpeg,png,jpg|max:2048',
             'periode_awal' => 'required|date|before:periode_akhir',
             'periode_akhir' => 'required|date|after:periode_awal',
+            'potongan_harga' => 'required|numeric|min:1',
         ], [
             'periode_awal.before' => 'Periode awal harus sebelum periode akhir',
             'periode_akhir.after' => 'Periode akhir harus setelah periode awal',
@@ -70,6 +71,7 @@ class PromoController extends Controller
             'image' => 'required|mimes:jpeg,png,jpg|max:2048',
             'periode_awal' => 'required|date|before:periode_akhir',
             'periode_akhir' => 'required|date|after:periode_awal',
+            'potongan_harga' => 'required|numeric|min:1',
         ], [
             'periode_awal.before' => 'Periode awal harus sebelum periode akhir',
             'periode_akhir.after' => 'Periode akhir harus setelah periode awal',
