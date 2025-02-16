@@ -103,6 +103,7 @@ class AuthController extends Controller
             'name' => $cachedUser['name'],
             'email' => $cachedUser['email'],
             'phone' => $cachedUser['phone'],
+            'alamat' => $cachedUser['alamat'],
             'password' => $cachedUser['password'],
         ]);
 
