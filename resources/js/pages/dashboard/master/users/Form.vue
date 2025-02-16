@@ -57,6 +57,7 @@ function submit() {
     formData.append("name", user.value.name);
     formData.append("email", user.value.email);
     formData.append("phone", user.value.phone);
+    formData.append("alamat", user.value.alamat);
     formData.append("role_id", user.value.role_id);
 
     if (user.value?.password) {
@@ -277,6 +278,28 @@ watch(
                         <div class="fv-plugins-message-container">
                             <div class="fv-help-block">
                                 <ErrorMessage name="phone" />
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Input group-->
+                </div>
+                <div class="col-md-6">
+                    <!--begin::Input group-->
+                    <div class="fv-row mb-7">
+                        <label class="form-label fw-bold fs-6 required">
+                            Alamat
+                        </label>
+                        <Field
+                            class="form-control form-control-lg form-control-solid"
+                            type="text"
+                            name="alamat"
+                            autocomplete="off"
+                            v-model="user.alamat"
+                            placeholder="Masukkan Alamat"
+                        />
+                        <div class="fv-plugins-message-container">
+                            <div class="fv-help-block">
+                                <ErrorMessage name="alamat" />
                             </div>
                         </div>
                     </div>

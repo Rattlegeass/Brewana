@@ -66,7 +66,7 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="fw-bold">Komentar</span>
-                                <button v-if="!komentars.data.some(k => k.user_id === auth.user.id && k.barang_id === item.id)" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalKomentar">
+                                <button v-if="!komentars.data.some(k => k.user_id === auth.user.id && k.barang_id === item.id) && auth.user.id" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalKomentar">
                                     Tambah Komentar
                                 </button>
                             </div>

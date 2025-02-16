@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'password' => bcrypt('12345678'),
             'phone' => '08123456789',
-            'photo' => 'profil/profil-image.jpg',
+            'alamat' => 'Surabaya',
         ])->assignRole('admin');
 
         User::create([
@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
             'email' => 'user@gmail.com',
             'password' => bcrypt('12345678'),
             'phone' => '08987654321',
-            'photo' => 'profil/profil-image.jpg',
+            'alamat' => 'Jl. Sememi Jaya 5b',
         ])->assignRole('user');
     }
 }

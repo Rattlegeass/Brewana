@@ -16,7 +16,7 @@ class PembayaranController extends Controller
         $page = $request->page ? $request->page - 1 : 0;
 
         DB::statement('set @no=0+' . $page * $per);
-        $data = Pembayaran::where(function ($q) use ($request) {
+        $data = Pembayaran::with('pengiriman')->where(function ($q) use ($request) {
             $q->whereHas('barang', function ($q) use ($request) {
                 $q->where('nama', 'LIKE', '%' . $request->search . '%');
             });
@@ -35,8 +35,8 @@ class PembayaranController extends Controller
             $barang = Barang::where('id', $pembayaran->barang_id)->first();
             $barang->update(['stok' => $barang->stok + $pembayaran->kuantitas]);
 
-            $pengiriman = Pengiriman::where('pembayaran_id', $pembayaran->id)->first();
-            $pengiriman->update(['status' => 'refund']);
+            // $pengiriman = Pengiriman::where('pembayaran_id', $pembayaran->id)->first();
+            // $pengiriman->update(['status' => 'refund']);
         } else {
             return response()->json(['message' => 'Error!'], 400);
         }

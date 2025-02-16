@@ -28,6 +28,7 @@ class StoreUserRequest extends FormRequest
             'password' => ['required', 'confirmed', Password::default()],
             'phone' => 'required|unique:users',
             'photo' => 'nullable|image',
+            'alamat' => 'nullable|max:255',
             'role_id' => 'required'
         ];
     }

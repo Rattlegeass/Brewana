@@ -14,20 +14,44 @@ class BarangImageSeeder extends Seeder
     public function run(): void
     {
         BarangImage::create([
-            'image' => 'barang/barang-image(1).png',
+            'image' => 'barang/arabica-beans.png',
             'barang_id' => 1,
         ]);
         BarangImage::create([
-            'image' => 'barang/barang-image(2).png',
+            'image' => 'barang/robusta-beans.png',
             'barang_id' => 2,
         ]);
         BarangImage::create([
-            'image' => 'barang/barang-image(3).png',
+            'image' => 'barang/toraja-beans.jpg',
             'barang_id' => 3,
         ]);
         BarangImage::create([
-            'image' => 'barang/barang-image(4).png',
+            'image' => 'barang/gayo-beans.jpg',
             'barang_id' => 4,
+        ]);
+        BarangImage::create([
+            'image' => 'barang/luwak-beans.jpg',
+            'barang_id' => 5,
+        ]);
+        BarangImage::create([
+            'image' => 'barang/excelsa-beans.jpg',
+            'barang_id' => 6,
+        ]);
+        BarangImage::create([
+            'image' => 'barang/french-press.png',
+            'barang_id' => 7,
+        ]);
+        BarangImage::create([
+            'image' => 'barang/espresso-machine.png',
+            'barang_id' => 8,
+        ]);
+        BarangImage::create([
+            'image' => 'barang/grinder.jpg',
+            'barang_id' => 9,
+        ]);
+        BarangImage::create([
+            'image' => 'barang/tamper.jpg',
+            'barang_id' => 10,
         ]);
     }
 }

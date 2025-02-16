@@ -23,7 +23,8 @@ class ProfilController extends Controller
     {
         $data = $request->validate([
             'foto' => 'nullable|image',
-            'name' => 'required|string',
+            'name' => 'nullable|string|max:255',
+            'alamat' => 'nullable|string|max:255',
         ]);
 
         $user = User::findByUuid($uuid);
@@ -42,6 +43,7 @@ class ProfilController extends Controller
 
         $user->update([
             'name' => $data['name'],
+            'alamat' => $data['alamat'],
             'photo' => $data['foto'],
         ]);
 

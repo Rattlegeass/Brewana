@@ -6,7 +6,8 @@
                     <div class="card-body">
                         <div class="d-flex gap-8 flex-wrap w-100 justify-content-center">
                             <div class="overflow-hidden rounded shadow-sm" style="height: 150px; width: 175px;">
-                                <img :src="`/storage/${store?.user?.photo}`" alt="Gambar User" class="w-100 h-100" style="object-fit: cover;">
+                                <img v-if="store?.user?.photo" :src="`/storage/${store?.user?.photo}`" alt="Gambar User" class="w-100 h-100" style="object-fit: cover;">
+                                <img v-else src="../assets/profil-image/blank.png" alt="Gambar User" class="w-100 h-100" style="object-fit: cover;">
                             </div>
                             <div class="d-flex flex-column w-100">
                                 <div class="border border-bottom border-gray mb-5"></div>
@@ -20,13 +21,12 @@
                                                 <span class="fs-4 fw-bold text-success">Akun</span>
                                             </span>
                                         </a>
-                                        <!-- <a class="nav-link w-100 btn btn-flex btn-active-light-primary" data-bs-toggle="tab"
-                                            href="#tab-keamanan">
+                                        <a class="nav-link w-100 btn btn-flex btn-active-light-primary" data-bs-toggle="tab" @click="router.push({ name: 'forgot-password' })">
                                             <i class="la la-lock text-primary fs-1"></i>
                                             <span class="d-flex flex-column align-items-start ms-2">
                                                 <span class="fs-4 fw-bold text-primary">Keamanan</span>
                                             </span>
-                                        </a> -->
+                                        </a>
                                         <a class="nav-link w-100 btn btn-flex btn-active-light-warning" data-bs-toggle="tab"
                                             href="#tab-riwayat">
                                             <i class="la la-history text-warning fs-1"></i>
@@ -122,9 +122,6 @@ export default defineComponent({
                 }
             });
         }
-    },
-    mounted() {
-        console.log(this.store)
     }
 });
 </script>

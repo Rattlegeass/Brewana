@@ -38,12 +38,16 @@ app.directive("mask", (el, binding) => {
     Inputmask(binding.value).mask(el);
 });
 
+import '@splidejs/vue-splide/css/default';
+import { Splide, SplideSlide } from '@splidejs/vue-splide';
 import DatePicker from "@/components/DatePicker.vue";
 import FileUpload from "@/components/FileUpload.vue";
 import Select2 from "@/components/Select2.vue";
 import Paginate from "@/components/Paginate.vue";
 import Switch from "@/components/Switch.vue";
 
+app.component("splide", Splide);
+app.component("splide-slide", SplideSlide);
 app.component("date-picker", DatePicker);
 app.component("file-upload", FileUpload);
 app.component("select2", Select2);

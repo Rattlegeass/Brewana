@@ -163,6 +163,22 @@ const routes: Array<RouteRecordRaw> = [
                     middleware: "guest",
                 },
             },
+            {
+                path: "/forgot-password",
+                name: "forgot-password",
+                component: () => import("@/pages/auth/forgot-pass/Index.vue"),
+                meta: {
+                    pageTitle: "Forgot Password",
+                },
+            },
+            {
+                path: "/reset-password/:token",
+                name: "reset-password",
+                component: () => import("@/pages/auth/reset-pass/Index.vue"),
+                meta: {
+                    pageTitle: "Reset Password",
+                },
+            },
         ],
     },
     {

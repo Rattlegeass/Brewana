@@ -16,9 +16,18 @@ class PromoSeeder extends Seeder
         Promo::create([
             'nama' => 'New Year 2025',
             'deskripsi' => 'Resolusi belanja hemat? Kami punya jawabannya! Promo spesial Tahun Baru 2025 menanti Anda!',
-            'image' => 'promo/promo-image.jpg',
+            'image' => 'promo/promo-image(1).png',
             'periode_awal' => '2025-01-01',
-            'periode_akhir' => '2025-01-31',
+            'periode_akhir' => '2025-02-28',
+            'potongan_harga' => 25,
+        ]);
+
+        Promo::create([
+            'nama' => 'Ramadhan 2025',
+            'deskripsi' => 'Nikmati momen berbuka dan sahur dengan secangkir kopi terbaik dari Brewana!',
+            'image' => 'promo/promo-image(2).png',
+            'periode_awal' => '2025-02-01',
+            'periode_akhir' => '2025-03-31',
             'potongan_harga' => 15,
         ]);
     }

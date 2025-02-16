@@ -2,7 +2,11 @@
   <div class="d-flex flex-column min-vh-100">
     <nav class="navbar navbar-expand-lg navbar-light bg-primary p-3" id="navbar">
       <div class="container-fluid">
-        <router-link class="navbar-brand w-25 text-white fs-4 fw-bold" to="/landing/home">BREWANA</router-link>
+        <router-link class="navbar-brand w-25 text-white fs-4 fw-bold d-flex align-items-center gap-3" to="/landing/home">
+          <!-- <img :src="setting?.logo" :alt="setting?.app" width="30"> -->
+          <i class="fa fa-coffee fs-3 text-black"></i>
+          <span>BREWANA</span>
+        </router-link>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="fa fa-bars text-white"></span>
@@ -72,17 +76,21 @@ import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 import JwtService from "@/core/services/JwtService";
+import { useSetting } from "@/services";
 
 export default defineComponent({
     setup() {
       const auth = useAuthStore();    
       const router = useRouter();
       const store = useAuthStore();
+      const { data: setting = {} } = useSetting()
+
       return {
           auth,
           router,
           store,
           JwtService,
+          setting,
       }
     },
     mounted() {
@@ -123,7 +131,7 @@ export default defineComponent({
     .nav-link::after{
         content: "";
         display: block;
-        border-bottom: 0.22rem solid rgb(255, 255, 255);
+        border-bottom: 0.22rem solid rgb(0, 0, 0);
         transform: scaleX(0);
         transition: 0.2s linear;
     }

@@ -1,5 +1,19 @@
 <template>
-    <div class="container-fluid p-10 g-5" id="toko">
+    <div class="container-fluid mt-10">
+        <div class="d-flex justify-content-center align-items-center">
+            <div class="card w-75 h-75 rounded p-3">
+                <div class="bg-white">
+                    <splide :options="{autoplay: true, interval: 3000, pauseOnHover: true, arrows: false, pagination: true, type: 'loop', perMove: 1, focus: 'center'}" class="h-100 w-100">
+                        <splide-slide v-for="(item, index) in promoItems" :key="index" class="d-flex justify-content-center align-items-center">
+                            <img :src="`/storage/${item.image}`" class="img-fluid" @click="console.log(index)">
+                        </splide-slide>
+                    </splide>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container p-10 g-5" id="toko">
         <div class="search-container mb-5 shadow-lg">
             <div class="input-group search-bar">
                 <span class="input-group-text bg-white border-end-0">
@@ -98,22 +112,35 @@ interface Barang {
     };
 }
 
+interface Promo {
+    id: number,
+    uuid: string,
+    nama: string,
+    deskripsi: string,
+    image: string,
+    periode_awal: string,
+    periode_akhir: string,
+    potongan_harga: number
+}
+
 export default defineComponent({
     setup() {
         const router = useRouter();
         const items = ref<Barang>({} as Barang);
+        const promoItems = ref<Promo>({} as Promo);
         const search = ref('');
 
         return {
             router,
             items,
+            promoItems,
             search,
             currency,
         }
     },
     methods: {
         data(url = '/landing/toko/get') {
-            block(this.$el)
+            // block(this.$el)
             axios.post(url, {
                 search: this.search
             }).then(response => {
@@ -121,11 +148,22 @@ export default defineComponent({
             }).catch(error => {
                 toast.error(error.response.data.message)
             }).finally(() => {
-                unblock(this.$el)
+                // unblock(this.$el)
             });
         },
+        dataPromo() {
+            // block(this.$el)
+            axios.get('/landing/toko/promo/get').then(response => {
+                this.promoItems = response.data
+            }).catch(error => {
+                toast.error(error.response.data.message)
+            }).finally(() => {
+                // unblock(this.$el)
+            });
+        }
     },
     mounted() {
+        this.dataPromo();
         this.data();
     }
 })

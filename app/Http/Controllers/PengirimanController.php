@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pembayaran;
 use App\Models\Pengiriman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +15,7 @@ class PengirimanController extends Controller
         $page = $request->page ? $request->page - 1 : 0;
 
         DB::statement('set @no=0+' . $page * $per);
-        $data = Pengiriman::whereHas('pembayaran', function ($q) use ($request) {
+        $data = Pembayaran::with('pengiriman')->whereHas('pengiriman')->when($request->search, function ($q) use ($request) {
             $q->whereHas('barang', function ($q) use ($request) {
                 $q->where('nama', 'LIKE', '%' . $request->search . '%');
             })->orWhereHas('user', function ($q) use ($request) {

@@ -16,6 +16,7 @@ export default defineComponent({
                 name: '',
                 email: '',
                 phone: '',
+                alamat: '',
                 password: '',
                 password_confirmation: '',
             },
@@ -28,7 +29,6 @@ export default defineComponent({
 
         const submitButton = ref(null);
 
-        //Create form validation object
         const register = Yup.object().shape({
             name: Yup.string().required("Please enter a Name").label("Name"),
             email: Yup.string().email('Invalid Email').required("Please enter Email").label("Email"),
@@ -50,11 +50,9 @@ export default defineComponent({
         submit() {
             blockBtn(this.submitButton);
 
-                // Melakukan permintaan ke API register
                 axios.post('auth/register', this.user)
                     .then(res => {
                         toast.success(res.data.message);
-                        // Redirect ke halaman OTP setelah berhasil registrasi
                         this.router.push({ name: 'verify-otp', params: { email: this.user.email } });
                     })
                     .catch(err => {
@@ -151,9 +149,25 @@ export default defineComponent({
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <label class="form-label fw-bold fs-6">
+                                Alamat
+                            </label>
+                            <Field tabindex="4" class="form-control form-control-lg form-control-solid" type="text"
+                                name="alamat" autocomplete="off" v-model="user.alamat" placeholder="Masukkan Alamat" />
+                            <div class="fv-plugins-message-container">
+                                <div class="fv-help-block">
+                                    <ErrorMessage name="alamat" />
+                                </div>
+                            </div>
+                        </div>
+                        <!--end::Input group-->
+                    </div>
+                    <div class="fv-row mb-2">
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-7">
+                            <label class="form-label fw-bold fs-6">
                                 Password
                             </label>
-                            <Field tabindex="4" class="form-control form-control-lg form-control-solid" type="password"
+                            <Field tabindex="5" class="form-control form-control-lg form-control-solid" type="password"
                                 name="password" autocomplete="off" v-model="user.password"
                                 placeholder="Masukkan Password" />
                             <div class="fv-plugins-message-container">
@@ -170,7 +184,7 @@ export default defineComponent({
                             <label class="form-label fw-bold fs-6">
                                 Konfirmasi Password
                             </label>
-                            <Field tabindex="5" class="form-control form-control-lg form-control-solid" type="password"
+                            <Field tabindex="6" class="form-control form-control-lg form-control-solid" type="password"
                                 name="password_confirmation" autocomplete="off" v-model="user.password_confirmation"
                                 placeholder="Konfirmasi Password" />
                             <div class="fv-plugins-message-container">

@@ -66,6 +66,11 @@ export function currency(
     return Intl.NumberFormat("id-ID", options).format(value);
 }
 
+export function formatNumber(number) {
+    if (number == null || number == undefined || number == '') return '';
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
 export function convertToDMS(coord) {
     const absoluteCoord = Math.abs(coord);
     const degrees = Math.floor(absoluteCoord);

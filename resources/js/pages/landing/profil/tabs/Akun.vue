@@ -45,8 +45,8 @@
                     <!--end::Label-->
         
                     <!--begin::Input-->
-                    <Field tabindex="1" class="form-control form-control-lg form-control-solid" type="text" name="email"
-                        autocomplete="off" disabled v-model="formData.email"/>
+                    <Field tabindex="2" class="form-control form-control-lg form-control-solid" type="text" name="email"
+                        autocomplete="off" readonly v-model="formData.email"/>
                     <!--end::Input-->
                     <div class="fv-plugins-message-container">
                         <div class="fv-help-block">
@@ -63,8 +63,8 @@
                     <!--end::Label-->
         
                     <!--begin::Input-->
-                    <Field tabindex="1" class="form-control form-control-lg form-control-solid" type="text" name="phone"
-                        autocomplete="off" disabled v-model="formData.phone"/>
+                    <Field tabindex="3" class="form-control form-control-lg form-control-solid" type="text" name="phone"
+                        autocomplete="off" readonly v-model="formData.phone"/>
                     <!--end::Input-->
                     <div class="fv-plugins-message-container">
                         <div class="fv-help-block">
@@ -73,11 +73,29 @@
                     </div>
                 </div>
                 <!--end::Input group-->
+
+                <!--begin::Input group-->
+                <div class="fv-row mb-10">
+                    <!--begin::Label-->
+                    <label class="form-label fw-bold required">Alamat</label>
+                    <!--end::Label-->
+        
+                    <!--begin::Input-->
+                    <Field tabindex="4" class="form-control form-control-lg form-control-solid" type="text" name="alamat"
+                        autocomplete="off" v-model="formData.alamat"/>
+                    <!--end::Input-->
+                    <div class="fv-plugins-message-container">
+                        <div class="fv-help-block">
+                            <ErrorMessage name="alamat" />
+                        </div>
+                    </div>
+                </div>
+                <!--end::Input group-->
         
                 <!--begin::Actions-->
                 <div class="text-center">
                     <!--begin::Submit button-->
-                    <button tabindex="3" type="submit" ref="submitButton" class="btn btn-lg btn-primary w-100 mb-5">
+                    <button tabindex="5" type="submit" ref="submitButton" class="btn btn-lg btn-primary w-100 mb-5">
                         <span class="indicator-label">Simpan</span>
         
                         <span class="indicator-progress">
@@ -105,6 +123,7 @@ interface FormData {
     photo: string;
     email: string;
     phone: string;
+    alamat: string;
 }
 
 export default defineComponent({
@@ -119,7 +138,7 @@ export default defineComponent({
         }
 
         const formSchema = Yup.object().shape({
-            name: Yup.string().required("Nama harus diisi"),
+            // name: Yup.string().required("Nama harus diisi"),
         });
 
         return {
@@ -134,11 +153,12 @@ export default defineComponent({
     },
     methods: {
         data() {
-            axios.get(`/landing/profil/${this.user.uuid}/get`).then(response => {
+            axios.get(`/landing/profil/${this.user?.uuid}/get`).then(response => {
                 this.formData = response.data.data
                 this.files = response.data.data.photo ? ["/storage/" + response.data.data.photo] : []
             }).catch(error => {
-                toast.error(error.response.data.message)
+                // toast.error(error.response.data.message)
+                console.log(error.response.data.message)
             })
         },
         update() {
@@ -146,6 +166,8 @@ export default defineComponent({
             const formData = new FormData(document.querySelector('#form-akun'))
             if (this.files.length > 0) {
                 formData.append("foto", this.files[0].file as File)
+            } else {
+                formData.append("foto", '')
             }
             
             axios.post(`/landing/profil/${this.user.uuid}/update`, formData).then(() => {

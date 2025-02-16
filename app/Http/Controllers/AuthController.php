@@ -6,10 +6,13 @@ use App\Models\Role;
 use App\Models\User;
 use App\Mail\SendOtpEmail;
 use Illuminate\Http\Request;
+use App\Mail\ResetPasswordEmail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -55,20 +58,20 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'phone' => 'required|string|min:8|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'alamat' => 'required|string|max:255',
         ]);
 
-        $otp = rand(100000, 999999); // OTP 6 digit
+        $otp = rand(100000, 999999);
 
-        // Simpan data user sementara di cache dengan durasi 2 menit
         Cache::put('user_' . $request->email, [
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
+            'alamat' => $request->alamat,
             'password' => Hash::make($request->password),
             'otp_code' => $otp
         ], now()->addMinutes(2));
 
-        // Kirim OTP ke email
         Mail::to($request->email)->send(new SendOtpEmail($request->name, $otp));
 
         return response()->json([
@@ -84,7 +87,6 @@ class AuthController extends Controller
             'otp_code' => 'required|numeric',
         ]);
 
-        // Ambil data user sementara dari cache
         $cachedUser = Cache::get('user_' . $request->email);
 
         if (!$cachedUser) {
@@ -97,7 +99,6 @@ class AuthController extends Controller
 
         $validator['role_id'] = 2;
 
-        // Buat user baru setelah OTP valid
         $user = User::create([
             'name' => $cachedUser['name'],
             'email' => $cachedUser['email'],
@@ -108,10 +109,49 @@ class AuthController extends Controller
         $role = Role::findById($validator['role_id']);
         $user->assignRole($role);
 
-        // Hapus cache setelah user berhasil diverifikasi
         Cache::forget('user_' . $request->email);
 
         return response()->json(['message' => 'OTP verified successfully.']);
+    }
+
+    public function sendResetLink(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+
+        $status = Password::sendResetLink($request->only('email'), function ($user, $token) {
+            $resetUrl = url("/reset-password/{$token}/?email=" . urlencode($user->email));
+            Mail::to($user->email)->send(new ResetPasswordEmail($resetUrl));
+        });
+
+        if ($status === Password::RESET_LINK_SENT) {
+            return response()->json(['message' => 'Password reset link sent']);
+        }
+
+        throw ValidationException::withMessages(['email' => __($status)]);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'token' => 'required',
+            'password' => 'required|min:8|confirmed'
+        ]);
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => bcrypt($password),
+                ])->save();
+            }
+        );
+
+        if ($status === Password::PASSWORD_RESET) {
+            return response()->json(['message' => 'Password has been reset']);
+        }
+
+        throw ValidationException::withMessages(['email' => __($status)]);
     }
 
     public function logout()

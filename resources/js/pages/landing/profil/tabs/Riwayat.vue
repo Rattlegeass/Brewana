@@ -14,9 +14,9 @@
                             <div class="badge badge-success" v-if="item.status === 'success'">Berhasil</div>
                             <div class="badge badge-warning" v-if="item.status === 'pending'">Menunggu</div>
                             <div class="badge badge-danger" v-if="item.status === 'failed'">Gagal</div>
-                            <div class="badge badge-info" v-if="item.pengiriman?.status === 'dikemas'">Dikemas</div>
-                            <div class="badge badge-primary" v-if="item.pengiriman?.status === 'dikirim'">Dikirim</div>
-                            <div class="badge badge-success" v-if="item.pengiriman?.status === 'diterima'">Diterima</div>
+                            <div class="badge badge-info" v-if="item.pengiriman?.status === 'dikemas' && item.status === 'refund'">Dikemas</div>
+                            <div class="badge badge-primary" v-if="item.pengiriman?.status === 'dikirim' && item.status === 'refund'">Dikirim</div>
+                            <div class="badge badge-success" v-if="item.pengiriman?.status === 'diterima' && item.status === 'refund'">Diterima</div>
                             <div class="badge badge-danger" v-if="item.status === 'refund'">Refund</div>
                         </div>
                         <h2 class="fw-bold mb-4">{{ item.barang?.nama }}</h2>
@@ -122,7 +122,8 @@ export default defineComponent({
             axios.post(url).then(response => {
                 this.items = response.data.items
             }).catch(error => {
-                toast.error(error.response.data.message)
+                // toast.error(error.response.data.message)
+                console.log(error.response.data.message)
             }).finally(() => {
                 unblock(this.$el)
             });

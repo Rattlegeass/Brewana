@@ -16,47 +16,50 @@ import { currency, block, unblock } from '@/libs/utils'
 import axios from "@/libs/axios";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
-interface Pengiriman {
+interface Pembayaran {
     id: number,
     uuid: string,
-    pembayaran_id: number,
-    pembayaran: {
+    order_id: number,
+    barang_id: string,
+    barang: {
         id: number,
         uuid: string,
-        barang_id: string,
-        barang: {
+        nama: string,
+        deskripsi: string,
+        stok: number,
+        kategori_id: number,
+        harga: number
+        barang_images: {
             id: number,
             uuid: string,
-            nama: string,
-            deskripsi: string,
-            stok: number,
-            kategori_id: number,
-            harga: number
-            barang_images: {
-                id: number,
-                uuid: string,
-                image: string
-                barang_id: number,
-            }
+            image: string
+            barang_id: number,
         }
-        user_id: number,
-        user: {
-            id: number;
-            uuid: string;
-            name: string;
-            email: string;
-            password?: string;
-            phone?: number;
-            role_id: number;
-        }
-        kuantitas: number,
-        total_harga: number,
-        status: string,
     }
+    user_id: number,
+    user: {
+        id: number;
+        uuid: string;
+        name: string;
+        email: string;
+        password?: string;
+        phone?: number;
+        role_id: number;
+    }
+    pengiriman_id: number,
+    pengiriman: {
+        id: number,
+        uuid: string,
+        order_id: number,
+        ongkir: number,
+        status: string,
+    },
+    kuantitas: number,
+    total_harga: number,
     status: string,
 }
 
-const column = createColumnHelper<Pengiriman>();
+const column = createColumnHelper<Pembayaran>();
 
 export default defineComponent({
     setup() {
@@ -102,40 +105,40 @@ export default defineComponent({
             column.accessor("no", {
                 header: "No"
             }),
-            column.accessor("pembayaran.uuid", {
+            column.accessor("order_id", {
                 header: "Order ID",
                 cell: cell => `#${cell.getValue()}`
             }),
-            column.accessor("pembayaran.barang.nama", {
+            column.accessor("barang.nama", {
                 header: "Barang"
             }),
-            column.accessor("pembayaran.user.name", {
+            column.accessor("user.name", {
                 header: "User"
             }),
-            column.accessor("pembayaran.user.phone", {
+            column.accessor("user.phone", {
                 header: "No. Telp"
             }),
-            column.accessor("pembayaran.kuantitas", {
+            column.accessor("kuantitas", {
                 header: "Kuantitas"
             }),
-            column.accessor("pembayaran.total_harga", {
+            column.accessor("total_harga", {
                 header: "Total Harga",
                 cell: cell => currency(cell.getValue())
             }),
-            column.accessor("status", {
+            column.accessor("pengiriman.status", {
                 header: "Status",
                 cell: (cell) => h("div", { class: "d-flex" }, [
                     h(
                         "input",
                         {
                             type: "button",
-                            class: cell.row.original.status == 'dikemas' ? "btn btn-sm btn-light-info"  : cell.row.original.status == 'dikirim' ? "btn btn-sm btn-light-primary" : cell.row.original.status == 'diterima' && cell.row.original.pembayaran.status != 'refund' ? "btn btn-sm btn-light-success disabled" : cell.row.original.status == 'diterima' && cell.row.original.pembayaran.status == 'refund' ? "btn btn-sm btn-light-success" : "btn btn-sm btn-light-danger disabled",
+                            class: cell.row.original.pengiriman.status == 'dikemas' ? "btn btn-sm btn-light-info"  : cell.row.original.pengiriman.status == 'dikirim' ? "btn btn-sm btn-light-primary" : cell.row.original.pengiriman.status == 'diterima' ? "btn btn-sm btn-light-success disabled" : "btn btn-sm btn-light-danger disabled",
                             onClick: () => {
-                                if (cell.row.original.status == 'dikemas' || cell.row.original.status == 'dikirim' || (cell.row.original.status == 'diterima' && cell.row.original.pembayaran.status == 'refund')) {
-                                    ubahStatus(cell.row.original.uuid, cell.row.original.status);
+                                if (cell.row.original.pengiriman.status == 'dikemas' || cell.row.original.pengiriman.status == 'dikirim' || (cell.row.original.pengiriman.status == 'diterima' && cell.row.original.status == 'refund')) {
+                                    ubahStatus(cell.row.original.pengiriman.uuid, cell.row.original.pengiriman.status);
                                 }
                             },
-                            value: cell.row.original.status == 'dikemas' ? 'Dikemas' : cell.row.original.status == 'dikirim' ? 'Dikirim' : cell.row.original.status == 'diterima' ? 'Diterima' : 'Refund',
+                            value: cell.row.original.pengiriman.status == 'dikemas' ? 'Dikemas' : cell.row.original.pengiriman.status == 'dikirim' ? 'Dikirim' : cell.row.original.pengiriman.status == 'diterima' ? 'Diterima' : 'Refund',
                         },
                     ),
                 ])

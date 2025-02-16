@@ -101,8 +101,7 @@
                         <label class="form-label fw-bold fs-6">
                             Image
                         </label>
-                        <span class="required"> (max: 3)</span>
-                        <file-upload v-bind:files="barang_images" :accepted-file-types="fileTypes" required v-on:updatefiles="onUpdateFiles" :allowMultiple="true" :maxFiles="3"></file-upload>
+                        <file-upload v-bind:files="barang_images" :accepted-file-types="fileTypes" required v-on:updatefiles="onUpdateFiles"></file-upload>
                         <div class="fv-plugins-message-container">
                             <div class="fv-help-block">
                                 <ErrorMessage name="image" />

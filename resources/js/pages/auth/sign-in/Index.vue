@@ -47,6 +47,13 @@
         <div class="border-bottom border-gray-300 w-100 mt-5 mb-10"></div>
 
         <!--begin::Link-->
+        <div class="text-gray-400 fw-semobold fs-4 text-center mb-5">
+            <router-link to="/forgot-password" class="link-primary fw-bold">
+                {{ $t('Lupa Sandi?') }}
+            </router-link>
+        </div>
+        <!--end::Link-->
+        <!--begin::Link-->
         <div class="text-gray-400 fw-semobold fs-4 text-center">
             {{ $t('Masih belum memiliki akun?') }}
 

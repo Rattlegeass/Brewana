@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Promo;
 use App\Models\Barang;
-use App\Models\Keranjang;
 use App\Models\Komentar;
+use App\Models\Keranjang;
 use App\Models\Pembayaran;
 use App\Models\Pengiriman;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class TokoController extends Controller
                 ->orWhereHas('kategori', function ($q) use ($request) {
                     $q->where('nama', 'LIKE', '%' . $request->search . '%');
                 });
-        })->paginate(10);
+        })->paginate(5);
 
         $data->map(function ($item) {
             if (isset($item->promo->potongan_harga)) {
@@ -30,6 +31,13 @@ class TokoController extends Controller
         });
 
         return response()->json(['items' => $data]);
+    }
+
+    public function promoItems(Request $request)
+    {
+        $data = Promo::get();
+
+        return response()->json($data);
     }
 
     public function detailItem($uuid)

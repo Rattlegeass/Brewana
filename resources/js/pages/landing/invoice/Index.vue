@@ -15,9 +15,10 @@
                         </div>
                         <div class="card-body">
                             <div class="mb-4">
-                                <p class="mb-1"><strong>Name:</strong> {{ item.pembayarans[0]?.user?.name }}</p>
+                                <p class="mb-1"><strong>Nama:</strong> {{ item.pembayarans[0]?.user?.name }}</p>
                                 <p class="mb-1"><strong>Email:</strong> {{ item.pembayarans[0]?.user?.email }}</p>
-                                <p><strong>Phone:</strong> {{ item.pembayarans[0]?.user?.phone }}</p>
+                                <p class="mb-1"><strong>No. Telepon:</strong> {{ item.pembayarans[0]?.user?.phone }}</p>
+                                <p><strong>Alamat:</strong> {{ item.pembayarans[0]?.user?.alamat }}</p>
                             </div>
                             <div class="table-responsive">
                                 <h5 class="text-primary">Detail Pemesanan</h5>

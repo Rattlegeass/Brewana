@@ -7,6 +7,7 @@ use App\Http\Controllers\TokoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PromoController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\SettingController;
@@ -20,11 +21,19 @@ Route::middleware(['json'])->group(function () {
         Route::post('login', [AuthController::class, 'login']);
         Route::post('register', [AuthController::class, 'register']);
         Route::post('verify-otp', [AuthController::class, 'verifyOtp']);
+        Route::post('/forgot-password', [AuthController::class, 'sendResetLink']);
+        Route::post('/reset-password', [AuthController::class, 'resetPassword']);
         Route::delete('logout', [AuthController::class, 'logout']);
         Route::get('me', [AuthController::class, 'me']);
     });
 
     Route::middleware(['auth', 'verified', 'json'])->group(function () {
+        Route::prefix('dashboard')->group(function () {
+            Route::get('income', [DashboardController::class, 'totalPemasukan']);
+            Route::get('sent', [DashboardController::class, 'totalPengiriman']);
+            Route::get('transaction', [DashboardController::class, 'totalTransaksi']);
+        });
+
         Route::prefix('setting')->group(function () {
             Route::get('', [SettingController::class, 'index'])->withoutMiddleware(['auth', 'verified', 'json']);
             Route::post('', [SettingController::class, 'update']);
@@ -86,6 +95,7 @@ Route::middleware(['json'])->group(function () {
             });
             Route::prefix('toko')->group(function () {
                 Route::post('/get', [TokoController::class, 'items'])->withoutMiddleware(['auth', 'verified', 'json']);
+                Route::get('/promo/get', [TokoController::class, 'promoItems'])->withoutMiddleware(['auth', 'verified', 'json']);
                 Route::prefix('detail')->group(function () {
                     Route::get('/{uuid}/get', [TokoController::class, 'detailItem'])->withoutMiddleware(['auth', 'verified', 'json']);
                     Route::post('/beli', [TokoController::class, 'beli']);
