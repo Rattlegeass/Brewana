@@ -57,7 +57,7 @@ const signOut = () => {
                 icon: "success",
                 text: "Berhasil keluar",
             }).then(() => {
-                router.push({ name: "sign-in" });
+                router.push({ name: "landing" });
             });
         }
     });
